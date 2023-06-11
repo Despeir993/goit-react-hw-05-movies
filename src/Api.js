@@ -10,44 +10,48 @@ export class Api {
   }
 
   async fetch(type) {
-    let res;
+    try {
+      let res;
 
-    switch (type) {
-      case 'trending':
-        res = await axios(
-          `${BASE_URL}trending/movie/day?api_key=${KEY}&language=en-US`
-        );
-        break;
+      switch (type) {
+        case 'trending':
+          res = await axios.get(
+            `${BASE_URL}trending/movie/day?api_key=${KEY}&language=en-US`
+          );
+          break;
 
-      case 'byQuery':
-        res = await axios(
-          `${BASE_URL}search/movie?api_key=${KEY}&query=${this._query}&include_adult=false&language=en-US&page=1`
-        );
-        break;
+        case 'byQuery':
+          res = await axios.get(
+            `${BASE_URL}search/movie?api_key=${KEY}&query=${this._query}&include_adult=false&language=en-US&page=1`
+          );
+          break;
 
-      case 'details':
-        res = await axios(
-          `${BASE_URL}movie/${this._movieId}?api_key=${KEY}&language=en-US`
-        );
-        return res.data;
+        case 'details':
+          res = await axios.get(
+            `${BASE_URL}movie/${this._movieId}?api_key=${KEY}&language=en-US`
+          );
+          return res.data;
 
-      case 'credits':
-        res = await axios(
-          `${BASE_URL}movie/${this._movieId}/credits?api_key=${KEY}&language=en-US`
-        );
-        return res.data.cast;
+        case 'credits':
+          res = await axios.get(
+            `${BASE_URL}movie/${this._movieId}/credits?api_key=${KEY}&language=en-US`
+          );
+          return res.data.cast;
 
-      case 'reviews':
-        res = await axios(
-          `${BASE_URL}movie/${this._movieId}/reviews?api_key=${KEY}&language=en-US&page=1`
-        );
-        break;
+        case 'reviews':
+          res = await axios.get(
+            `${BASE_URL}movie/${this._movieId}/reviews?api_key=${KEY}&language=en-US&page=1`
+          );
+          break;
 
-      default:
-        return;
+        default:
+          return;
+      }
+
+      return res.data.results;
+    } catch (error) {
+      throw new Error('Something went wrong');
     }
-
-    return res.data.results;
   }
 
   get query() {

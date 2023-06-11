@@ -9,7 +9,16 @@ const Home = () => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    api.fetch('trending').then(setMovies);
+    const fetchData = async () => {
+      try {
+        const data = await api.fetch('trending');
+        setMovies(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (

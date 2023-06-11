@@ -36,10 +36,20 @@ const MovieDetails = () => {
   const backLinkHref = current.state?.from ?? `/movies`;
 
   useEffect(() => {
-    setShowLoader(true);
+    const fetchMovieDetails = async () => {
+      try {
+        setShowLoader(true);
+        api.movieId = movieId;
+        const res = await api.fetch('details');
+        setMovie(res);
+      } catch (error) {
+        console.error('Error fetching movie details:', error);
+      } finally {
+        setShowLoader(false);
+      }
+    };
 
-    api.movieId = movieId;
-    api.fetch('details').then(res => setMovie(res)).finally(() => setShowLoader(false));
+    fetchMovieDetails();
   }, [movieId]);
 
   const { poster_path, title, release_date, overview, genres, vote_average } =
