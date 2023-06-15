@@ -5,10 +5,10 @@ import styles from './Search.module.css';
 const Search = ({ onSubmit }) => {
   const handleSubmit = evt => {
     evt.preventDefault();
-    const query = evt.target.elements.query.value;
+     const query = evt.target.elements.query.value.trim();
     if (!query) {
       window.alert('Please enter a movie to search');
-    }
+    } 
     onSubmit(query);
     evt.target.reset();
   };
